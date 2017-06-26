@@ -295,10 +295,8 @@ class Billing_Period(object):
         return self.totalhours
 
     '''
-        Given a duration period in days and a start date, this function calculates the end date for that billing period.
-
-        !!!Doesn't factor in voided days!!!!!!!!!!!!!!!!*******
-
+        Given a duration period in days and a start date, this function calculates the end date for that billing period.  Note: This function doesn't factor in voided days.
+        
         1) Sets an interval variable equal to the timedelta object self.duration - one timedelta day (since the days end at 23:59:59, not midnight of the next day).
         2) Sets a local end_date variable equal to self.start_date plus the interval.
         3) Converts the end_date datetime local variable to a string format
