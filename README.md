@@ -19,6 +19,7 @@ Functions:
 - set_end_date
 - get_end_date
 - void_days
+- get_voided_days
 - duration_days
 - duration_hours
 - end_date_from_duration
