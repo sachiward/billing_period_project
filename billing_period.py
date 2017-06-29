@@ -227,6 +227,23 @@ class Billing_Period(object):
 
         return
     
+    
+    '''
+        Function that returns the voided days for the billing period.
+
+        1) Returns the list self.voided_days
+
+        Arguments:
+            none
+
+        Returns:
+            self.voided_days        - (list) The days in a billing period to be voided (and not billed for).
+    '''
+    def get_voided_days(self, day_to_void):
+
+        return self.voided_days
+    
+    
     '''
         Function that returns the total number of days in a billing period based on the start date, end date, and whether or not you want to include the start/end days.
 
