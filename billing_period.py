@@ -38,6 +38,8 @@ class Billing_Period(object):
 
         self.number_of_voided_days = 0
 
+
+    ############################################################################
     '''
         Checks whether or not the inputted date is a valid date.
 
@@ -50,7 +52,7 @@ class Billing_Period(object):
             date_to_check       - (string) Sent as an argument. Should be in the YYYY-MM-DD format (if not the function will return as False)
 
         Returns:
-            result            - (bool) Returns as a True if the date is in the correct YYYY-MM-DD format and is a valid date.
+            result              - (bool) Returns as a True if the date is in the correct YYYY-MM-DD format and is a valid date.
     '''
     def check_valid_date(self, date_to_check):
 
@@ -64,35 +66,35 @@ class Billing_Period(object):
 
         return result
 
+
+    ############################################################################
     '''
         Checks whether or not the inputted date is within the billing period.
 
-        1) Converts the date_to_check argument to a datetime object and stores that into a variable d.
-        2) Checks if d is greater than self.start_date and less than self.end_date
+        1) Sets a boolean variable result to False
+        2) Converts the date_to_check argument to a datetime object and stores that into a variable d.
+        3) Checks if d is greater than self.start_date and less than self.end_date
             a) If this is true:
-                i) Return True
-            b) Else:
-                i) Return False
-        3) Returns
+                i) Change the value of result to True
+        3) Returns result
 
         Arguments:
             date_to_check       - (string) Sent as an argument. Must be in the YYYY-MM-DD format.
 
         Returns:
-            True/False          - (boolean) Returns True if the date is within the billing period and False if the date is not within the billing period.
+            result              - (boolean) Returns True if the date is within the billing period and False if the date is not within the billing period.
     '''
     def check_date_in_billing_period(self, date_to_check):
-
+        result = False
         d = datetime.datetime.strptime(date_to_check, '%Y-%m-%d')
 
         if d >= self.start_date and d <= self.end_date:
-            return True
+            result = True
 
-        else:
-            return False
+        return result
 
-        return
 
+    ############################################################################
     '''
         Sets the start date for the billing period.
 
@@ -124,6 +126,8 @@ class Billing_Period(object):
 
         return
 
+
+    ############################################################################
     '''
         Function that returns the set start date.
 
@@ -139,6 +143,8 @@ class Billing_Period(object):
 
         return datetime.strptime(self.start_date, '%Y-%m-%d')
 
+
+    ############################################################################
     '''
         Sets the end date for the billing period.
 
@@ -178,6 +184,8 @@ class Billing_Period(object):
 
         return
 
+
+    ############################################################################
     '''
         Function that returns the set end date.
 
@@ -187,27 +195,33 @@ class Billing_Period(object):
             none
 
         Returns:
-            self.end_date   - (datetime object) The set end date for the billing period.
+            self.end_date       - (datetime object) The set end date for the billing period.
     '''
     def get_end_date(self):
 
         return datetime.strptime(self.end_date, '%Y-%m-%d')
 
+
+    ############################################################################
     '''
         Function that allows you to void days from the billing period.
 
-        1) Calls the check_valid_date function to check the validity of the called date argument and sets it equal to a validity variable.
-        2) Calls the check_date_in_billing_period function with the argument day_to_void and sets it equal to a dibp variable (date in billing period)
-        3) Checks if the validity boolean is True and if the datetime object is within the billing period.
-            a) If the validity boolean and the dibp boolean are True:
-                i) Appends the datetime object d to the self.voided_days list.
-                ii) Sets the self.number_of_voided_days variable equal to the length of the self.voided_days list.
-            b) If not:
-                i) Write a standard error to the system.
+        1) Sets a variable x equal to 0. (This will be used as an index)
+        2) Begins a for-in loop to run through the days_to_void list argument and for every date:
+            a) Calls the check_valid_date function to check the validity of the called date argument and sets it equal to a validity variable.
+            b) Calls the check_date_in_billing_period function with the argument days_to_void and sets it equal to a dibp variable (date in billing period)
+            c) Checks if the validity boolean is True and if the datetime object is within the billing period.
+                i) If the validity boolean and the dibp boolean are True:
+                    a) Sets a dt datetime object variable equal to the string at the x index in the days_to_void list.
+                    b) Appends the datetime object d to the self.voided_days list.
+                    c) Sets the self.number_of_voided_days variable equal to the length of the self.voided_days list.
+                ii) If not:
+                    a) Write a standard error to the system.
+            d) Bumps up the x index by one.
         4) Returns
 
         Arguments:
-            day_to_void         - (string) Desired date to void.  Must be in YYYY-MM-DD format and within the billing period.
+            days_to_void         - (list of strings) Desired date(s) to void.  Must be in YYYY-MM-DD format and within the billing period.  Separate each date with a comma.
 
         Returns:
             none
@@ -230,8 +244,9 @@ class Billing_Period(object):
             x += 1
 
         return
-    
-    
+
+
+    ############################################################################
     '''
         Function that returns the voided days for the billing period.
 
@@ -246,34 +261,38 @@ class Billing_Period(object):
     def get_voided_days(self, day_to_void):
 
         return self.voided_days
-    
-    
+
+
+    ############################################################################
     '''
         Function that returns the total number of days in a billing period based on the start date, end date, and whether or not you want to include the start/end days.
 
         1) Checks if there are any voided days for the billing period.
             a) If there are no voided days for the billing period:
-                i) Sets self.duration (a timedelta object) equal to the absolute value of the self.end_date minus the self.start_date datetime objects and adds a day to account for the 23:59:59 end time of billing days.
+                i) Sets duration (a timedelta object) equal to the absolute value of the self.end_date minus the self.start_date datetime objects and adds a day to account for the 23:59:59 end time of billing days.
             b) If there are voided days for the billing period:
                 ii) Does the same calculation as in step 1ai) but accounts for the voided days by subtracting a timedelta object of days = self.number_of_voided_days.
-            c) Return self.duration
+            c) Returns duration
 
         Arguments:
             none
 
         Returns:
-            self.duration            - (timedelta object) The length of the billing period.
+            duration            - (timedelta object) The length of the billing period.
     '''
+
     def duration_days(self):
 
         if self.number_of_voided_days == 0:
-                self.duration = abs(self.end_date - self.start_date) + datetime.timedelta(days = 1)
+                duration = abs(self.end_date - self.start_date) + datetime.timedelta(days = 1)
 
         else:
-            self.duration = abs(self.end_date - self.start_date) + datetime.timedelta(days = 1) - datetime.timedelta(days = self.number_of_voided_days)
+            duration = abs(self.end_date - self.start_date) + datetime.timedelta(days = 1) - datetime.timedelta(days = self.number_of_voided_days)
 
-        return self.duration
+        return duration
 
+
+    ############################################################################
     '''
         Calculates the total number of hours in a billing period based on the start and end days.  Includes the last day.
 
@@ -300,11 +319,8 @@ class Billing_Period(object):
         x = self.end_datetime - self.start_datetime
 
         seconds = x.total_seconds()
-
         hours = math.ceil(seconds // 3600)
-
         minutes = math.ceil((seconds % 3600) // 60)
-
         seconds = math.ceil(seconds % 60)
 
         if self.number_of_voided_days == 0:
@@ -315,33 +331,34 @@ class Billing_Period(object):
 
         return self.totalhours
 
+
+    ############################################################################
     '''
-        Given a duration period in days and a start date, this function calculates the end date for that billing period.  Note: This function doesn't factor in voided days.
-        
-        1) Sets an interval variable equal to the timedelta object self.duration - one timedelta day (since the days end at 23:59:59, not midnight of the next day).
+        Given a duration period in days and a start date, this function calculates the end date for that billing period.  Note: This function doesn't factor in voided days.dura
+
+        1) Sets an interval variable equal to the timedelta object duration - one timedelta day (since the days end at 23:59:59, not midnight of the next day).
         2) Sets a local end_date variable equal to self.start_date plus the interval.
         3) Converts the end_date datetime local variable to a string format
         4) Calls the set_end_date function to set self.end_date and self.end_datetime equal to the local string_end_date variable.
         5) Returns self.end_date
 
         Arguments:
-            none
+            duration             - (integer) Desired length of the billing period.
 
         Returns:
-            self.end_date        - (datetime object)
+            self.end_date        - (datetime object) The end date of the billing period.
     '''
-    def end_date_from_duration(self):
+    def end_date_from_duration(self, duration):
 
-        interval = datetime.timedelta(days = self.duration) - datetime.timedelta(days = 1)
-
+        interval = datetime.timedelta(days = duration) - datetime.timedelta(days = 1)
         end_date = (self.start_date + interval)
-
         string_end_date = end_date.strftime('%Y-%m-%d')
-
         set_end_date(string_end_date)
 
         return self.end_date
 
+
+    ############################################################################
     '''
         Finds the last day of the last billing period.
 
@@ -381,6 +398,8 @@ class Billing_Period(object):
 
         return last_billing_period
 
+
+    ############################################################################
     '''
         Calculates the number of days since the last billing period.  By default, the end date for the last billing period is the 14th of the month (or the previous month) at 11:59:59.
         Change the number 14 throughout the function if you want to change the end_date of the billing periods.
@@ -403,6 +422,8 @@ class Billing_Period(object):
 
         return days_since.days
 
+
+    ############################################################################
     '''
         Calculates the total number of hours since the last billing period.
 
@@ -435,7 +456,9 @@ class Billing_Period(object):
         hours_since = math.ceil(time_since.total_seconds() // 3600) - 24
 
         return hours_since
-    
+
+
+    ############################################################################
     '''
         Calculates the total number of billable days since the last billing period.  By default, the end date for the last billing period is the 14th of the month (or the previous month) at 11:59:59.
         Change the number 14 throughout the function if you want to change the end_date of the billing periods.
@@ -464,6 +487,8 @@ class Billing_Period(object):
 
         return days_since.days
 
+
+    ############################################################################
     '''
         Calculates the total number of hours since the last billing period.
 
@@ -502,3 +527,5 @@ class Billing_Period(object):
 
         return hours_since
 
+
+    ############################################################################
