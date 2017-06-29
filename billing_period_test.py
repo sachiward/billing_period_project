@@ -7,17 +7,14 @@ import calendar
 class TestStringMethods(unittest.TestCase):
 
     def test_check_valid_date(self):
-
-        date_to_check = '2015-02-20'
+        date_to_check = '2017-06-23'
 
         result = True
 
         try:
-
             d = datetime.datetime.strptime(date_to_check, '%Y-%m-%d')
 
         except ValueError:
-
             result = False
 
         self.assertEqual(result, True)
@@ -32,18 +29,15 @@ class TestStringMethods(unittest.TestCase):
         start_date = datetime.datetime.strptime(start_date, '%Y-%m-%d')
         date_to_check = '2017-05-26'
 
+        result = False
+
         d = datetime.datetime.strptime(date_to_check, '%Y-%m-%d')
 
         if d >= start_date and d <= end_date:
-
+            result = True
             print 'Yes!'
 
-        else:
-
-            print 'No :('
-
-        return
-
+        return result
 
     def test_set_start_date(self):
 
@@ -120,7 +114,7 @@ class TestStringMethods(unittest.TestCase):
         ed = datetime.datetime.strptime(end_date, '%Y-%m-%d')
 
         self.assertTrue(ed, '2016-01-01')
-        
+
     def test_void_days(self):
 
         validity = True
@@ -149,21 +143,19 @@ class TestStringMethods(unittest.TestCase):
         print type(voided_days), type(number_of_voided_days)
 
         return
-    
-    
+
+
     def test_get_voided_days(self):
         voided_days = []
         voided_days.append('2017-05-19')
         print voided_days
         print type(voided_days)
 
-
     def test_duration_days(self):
-
-        end_date = '2017-06-14'
-        end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d')
         start_date = '2017-05-15'
         start_date = datetime.datetime.strptime(start_date, '%Y-%m-%d')
+        end_date = '2017-06-14'
+        end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d')
 
         number_of_voided_days = 0
 
@@ -175,38 +167,33 @@ class TestStringMethods(unittest.TestCase):
 
             duration = abs(end_date - start_date) + datetime.timedelta(days = 1) - datetime.timedelta(days = number_of_voided_days)
 
-        print duration
-
+        #print duration
+        #print type(duration)
         return duration
 
     def test_duration_hours(self):
-        end_time = datetime.time(23, 59, 59, 9999)
-        end_date = '2017-06-14'
-        end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d')
-        end_datetime = datetime.datetime.combine(end_date, end_time)
         start_time = datetime.time(0, 0, 0, 0000)
         start_date = '2017-05-15'
         start_date = datetime.datetime.strptime(start_date, '%Y-%m-%d')
         start_datetime = datetime.datetime.combine(start_date, start_time)
+        end_time = datetime.time(23, 59, 59, 9999)
+        end_date = '2017-06-14'
+        end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d')
+        end_datetime = datetime.datetime.combine(end_date, end_time)
 
         x = end_datetime - start_datetime
 
         seconds = x.total_seconds()
-
         hours = math.ceil(seconds // 3600)
-
         minutes = math.ceil((seconds % 3600) // 60)
-
         seconds = math.ceil(seconds % 60)
 
-        # totalhours = math.ceil(hours + minutes // 60 + seconds // 60)
-
-        number_of_voided_days = 3
+        number_of_voided_days = 0
 
         totalhours = math.ceil(hours + minutes // 60 + seconds // 60) - number_of_voided_days * 24
 
         print totalhours
-
+        print type(totalhours)
         return totalhours
 
     def test_end_date_from_duration(self):
@@ -216,16 +203,15 @@ class TestStringMethods(unittest.TestCase):
         duration = 31
 
         interval = datetime.timedelta(days = duration) - datetime.timedelta(days = 1)
-
         end_date = (start_date + interval)
-
         string_end_date = end_date.strftime('%Y-%m-%d')
-
 
         #set_end_date function below
         final_end_date = datetime.datetime.strptime(string_end_date, '%Y-%m-%d')
 
         print final_end_date
+        print type(final_end_date)
+        return final_end_date
 
     def test_find_end_of_last_billing_period(self):
 
