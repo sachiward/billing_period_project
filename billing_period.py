@@ -212,18 +212,22 @@ class Billing_Period(object):
         Returns:
             none
     '''
-    def void_days(self, day_to_void):
+    def void_days(self, days_to_void):
 
-        validity = check_valid_date(day_to_void)
+        x = 0
+        for dates in days_to_void:
+            validity = check_valid_date(days_to_void[x])
+            dibp = check_date_in_billing_period(days_to_void[x])
 
-        dibp = check_date_in_billing_period(day_to_void)
+            if validity and dibp:
+                dt = datetime.datetime.strptime(days_to_void[x], '%Y-%m-%d')
+                self.voided_days.append(dt)
+                self.number_of_voided_days = len(self.voided_days)
 
-        if validity and dibp:
-            self.voided_days.append(d)
-            self.number_of_voided_days = len(self.voided_days)
+            else:
+                sys.stderr.write('Error: Date entered not allowed. Must be a valid date, within the billing period, and in the YYYY-MM-DD format.')
 
-        else:
-            sys.stderr.write('Error: Date entered not allowed. Must be a valid date, within the billing period, and in the YYYY-MM-DD format.')
+            x += 1
 
         return
     
