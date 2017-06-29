@@ -120,7 +120,8 @@ class TestStringMethods(unittest.TestCase):
         ed = datetime.datetime.strptime(end_date, '%Y-%m-%d')
 
         self.assertTrue(ed, '2016-01-01')
-def test_void_days(self):
+        
+    def test_void_days(self):
 
         validity = True
         days_to_void = ['2017-06-10', '2017-06-11', '2017-06-12']
