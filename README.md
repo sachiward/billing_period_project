@@ -9,7 +9,7 @@ ___
 Prerequisites:
 none
 ___
-This class can perform fifteen different functions to create, modify, and find information about billing periods.  All days start at midnight and end at 23:59:59.  All dates must be formatted as YYYY-MM-DD.  More detailed descriptions are included before each function in the billing_period.py file.
+This class can perform sixteen different functions to create, modify, and find information about billing periods.  All days start at midnight and end at 23:59:59.  All dates must be formatted as YYYY-MM-DD.  More detailed descriptions are included before each function in the billing_period.py file.
 ___
 Functions:
 - check_valid_date
