@@ -120,31 +120,32 @@ class TestStringMethods(unittest.TestCase):
         ed = datetime.datetime.strptime(end_date, '%Y-%m-%d')
 
         self.assertTrue(ed, '2016-01-01')
-
-    def test_void_days(self):
+def test_void_days(self):
 
         validity = True
-        day_to_void = '2017-06-10'
-        end_date = '2017-06-14'
-        end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d')
+        days_to_void = ['2017-06-10', '2017-06-11', '2017-06-12']
         start_date = '2017-05-15'
         start_date = datetime.datetime.strptime(start_date, '%Y-%m-%d')
+        end_date = '2017-06-14'
+        end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d')
         voided_days = []
 
-        d = datetime.datetime.strptime(day_to_void, '%Y-%m-%d')
-        dibp = True
+        x = 0
+        for dates in days_to_void:
+            dibp = True
 
-        if validity and dibp:
+            if validity and dibp:
+                dt = datetime.datetime.strptime(days_to_void[x], '%Y-%m-%d')
+                voided_days.append(dt)
+                number_of_voided_days = len(voided_days)
 
-            voided_days.append(d)
+            else:
+                sys.stderr.write('Error: Date entered (%s) not allowed. Must be a valid date, within the billing period, and in the YYYY-MM-DD format.' % days_to_void[x])
 
-            number_of_voided_days = len(voided_days)
+            x += 1
 
-            print voided_days, number_of_voided_days
-
-        else:
-
-            sys.stderr.write('Error: Date entered not allowed. Must be a valid date, within the billing period, and in the YYYY-MM-DD format.')
+        print voided_days, number_of_voided_days
+        print type(voided_days), type(number_of_voided_days)
 
         return
     
