@@ -147,6 +147,14 @@ class TestStringMethods(unittest.TestCase):
             sys.stderr.write('Error: Date entered not allowed. Must be a valid date, within the billing period, and in the YYYY-MM-DD format.')
 
         return
+    
+    
+    def test_get_voided_days(self):
+        voided_days = []
+        voided_days.append('2017-05-19')
+        print voided_days
+        print type(voided_days)
+
 
     def test_duration_days(self):
 
